@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema(
   { minimize: false }
 );
 
-// IMPORTANT: prevents model overwrite in dev + production
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;
