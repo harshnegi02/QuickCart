@@ -4,9 +4,8 @@ import User from "@/models/User";
 
 export const inngest = new Inngest({ id: "quickcart-next" });
 
-// CREATE USER
 export const syncUserCreation = inngest.createFunction(
-  { id: "sync-user-from-clerk" },
+  { id: "sync-user-created" },
   { event: "clerk/user.created" },
   async ({ event }) => {
     await connectDB();
@@ -23,9 +22,8 @@ export const syncUserCreation = inngest.createFunction(
   }
 );
 
-// UPDATE USER
 export const syncUserUpdation = inngest.createFunction(
-  { id: "sync-user-update" },
+  { id: "sync-user-updated" },
   { event: "clerk/user.updated" },
   async ({ event }) => {
     await connectDB();
@@ -41,15 +39,11 @@ export const syncUserUpdation = inngest.createFunction(
   }
 );
 
-// DELETE USER
 export const syncUserDeletion = inngest.createFunction(
-  { id: "sync-user-delete" },
+  { id: "sync-user-deleted" },
   { event: "clerk/user.deleted" },
   async ({ event }) => {
     await connectDB();
-
-    const { id } = event.data;
-
-    await User.findByIdAndDelete(id);
+    await User.findByIdAndDelete(event.data.id);
   }
 );
